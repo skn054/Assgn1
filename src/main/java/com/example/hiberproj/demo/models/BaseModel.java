@@ -2,23 +2,18 @@ package com.example.hiberproj.demo.models;
 
 import java.util.Date;
 
+import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public class BaseModel {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)

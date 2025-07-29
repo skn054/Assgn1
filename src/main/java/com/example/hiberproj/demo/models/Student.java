@@ -4,14 +4,17 @@ package com.example.hiberproj.demo.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
+@Builder
 public class Student extends BaseModel{
 
     private String firstName;
@@ -19,5 +22,5 @@ public class Student extends BaseModel{
 
     @ManyToMany
     @JoinTable(name="course_students")
-    private Set<Course> courses;
+    private Set<Course> courses = new HashSet<>();
 }

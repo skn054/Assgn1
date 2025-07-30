@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -28,32 +29,44 @@ public class DataLoader implements CommandLineRunner {
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-        Department department = Department.builder().name("CS Dept").build();
-        departmentRepository.save(department);
-
-        Professor richard = Professor.builder().firstName("Richard").lastName("Feynman").build();
-
-        Professor turning = Professor.builder().firstName("Alan").lastName("Turning").build();
-
-        ProfessorProfile turningProfile = ProfessorProfile.builder().bio("Professor at CS DEPT").officeNumber("MIT").build();
-        ProfessorProfile alanProfile = ProfessorProfile.builder().bio("Professor at Physics Dept").officeNumber("Cal TECH").build();
-
-        turning.setDepartment(department);
-        turning.setProfessorProfile(turningProfile);
-        professorRepository.save(turning);
-
-        Course course = Course.builder().courseNumber("010").credits(4).professor(turning).build();
-        courseRepository.save(course);
-
-
-        Student student = Student.builder().email("skn054@gmail.com").firstName("sk").build();
-
-
-        Student student1 = Student.builder().email("123").firstName("xyz").courses(new HashSet<>()).build();
-        student.setCourses(Set.of(course)); // if we want to save many to many relation then owing entity values must be set.
-//        course.setStudents(Set.of(student));
+//        Department department = Department.builder().name("CS Dept").build();
+//        departmentRepository.save(department);
+//
+//        Professor richard = Professor.builder().firstName("Richard").lastName("Feynman").build();
+//
+//        Professor turning = Professor.builder().firstName("Alan").lastName("Turning").build();
+//
+//        ProfessorProfile turningProfile = ProfessorProfile.builder().bio("Professor at CS DEPT").officeNumber("MIT").build();
+//        ProfessorProfile alanProfile = ProfessorProfile.builder().bio("Professor at Physics Dept").officeNumber("Cal TECH").build();
+//
+//        turning.setDepartment(department);
+//        turning.setProfessorProfile(turningProfile);
+//        professorRepository.save(turning);
+//
+//        Course course = Course.builder().courseNumber("010").credits(4).professor(turning).build();
 //        courseRepository.save(course);
-        studentRepository.save(student);
+//
+//
+//        Student student = Student.builder().email("skn054@gmail.com").firstName("sk").build();
+//
+//
+//        Student student1 = Student.builder().email("123").firstName("xyz").build();
+//        student.setCourses(Set.of(course)); // if we want to save many to many relation then owing entity values must be set.
+////        course.setStudents(Set.of(student));
+////        courseRepository.save(course);
+//        student1.setCourses(Set.of(course));
+//        studentRepository.save(student);
+//        studentRepository.save(student1);
+//
+//        Optional<Student> optionalStudenti = studentRepository.findById(student.getId());
+//        System.out.println(optionalStudenti.get().getFirstName());
+
+         Optional<Professor> optionalProfessor =  professorRepository.findById(1L);
+         if(optionalProfessor.isPresent()){
+             System.out.println(optionalProfessor.get().getLastName());
+             System.out.println(optionalProfessor.get().getProfessorProfile().getProfessor().getFirstName());// checks in cache for profile with given id.
+         }
+
 
 
 

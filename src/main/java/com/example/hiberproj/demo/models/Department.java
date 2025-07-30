@@ -13,7 +13,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Builder
 public class Department extends BaseModel{
 
     private String name;

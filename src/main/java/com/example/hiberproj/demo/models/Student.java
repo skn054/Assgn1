@@ -6,6 +6,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Builder
+
 public class Student extends BaseModel{
 
     private String firstName;

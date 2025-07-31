@@ -4,6 +4,7 @@ import com.example.hiberproj.demo.models.Course;
 import com.example.hiberproj.demo.models.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,4 +22,11 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 
     @Query("select s from Student s join fetch s.courses ")
     List<Student> findStudentsEnrolledInAtleastACourseAndGetCourses();
+
+    @Query("select s from Student s left join s.courses c where c is NULL")
+    List<Student> findStudentWhoareNotEnrolled();
+
+    // All students enrolled in a course taught by a professor
+    @Query("select s from Student s join s.courses c join c.professor p where p.firstName = :name")
+    List<Student> findAllStudentsByProfessor(@Param("name") String name);
 }

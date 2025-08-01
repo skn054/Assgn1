@@ -12,7 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -64,6 +66,32 @@ class DemoApplicationTests {
 
 		List<Department> departments = departmentRepository.findDepartmentWIthMaxProfessors(PageRequest.of(0,1));
 		System.out.println(departments.stream().map(department -> department.getName()).collect(Collectors.toList()));
+
+
+		//find all departments and eagerly fetch professors and professor profile.
+		List<Department> departments1 = departmentRepository.findAllDepartments();
+		for(Department department: departments1){
+			System.out.println(department.getName());
+			System.out.println(department.getProfessors().stream().map(professor  -> professor.getFirstName() + " " + professor.getProfessorProfile().getBio()).collect(Collectors.toList()));
+//			System.out.println(department.getProfessors());
+		}
+
+		//FInd a professor by first and lastName
+		Optional<Professor> professor = professorRepository.findProfessorByFirstNameAndLastName("Richard","Feynman");
+		if(professor.isPresent()){
+			System.out.println(professor.get().getId());
+		}
+
+		//fidn all courses where course credits greater than given number
+		List<Course> courses1 = courseRepository.findByCreditsGreaterThan(2);
+		System.out.println(courses1.stream().map(course -> course.getCourseNumber()).collect(Collectors.toList()));
+
+		//find all students whose email ends with specific domain
+		List<Student> stdlist = studentRepository.findByEmailEndingWith("@example.com");
+
+		//find all courses taught by any professor from given department
+		List<Course > courses2 = courseRepository.findByProfessorOrDepartmentNameIn(List.of("Computer Science", "Physics"));
+		System.out.println(courses2.stream().map(course -> course.getId()).collect(Collectors.toList()));
 
 	}
 

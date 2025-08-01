@@ -20,4 +20,11 @@ public interface DepartmentRepository extends JpaRepository<Department,Long> {
     // find department with maximum professors
     @Query("select p.department from Professor p group by(p.department) order by count(p.department) desc")
     List<Department> findDepartmentWIthMaxProfessors(Pageable pageable);
+
+    @Query("select d from Department d join fetch d.professors p join fetch p.professorProfile")
+    List<Department> findAllDepartments();
+
+
+
+
 }

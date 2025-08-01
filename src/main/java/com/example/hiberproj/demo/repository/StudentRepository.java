@@ -29,4 +29,7 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
     // All students enrolled in a course taught by a professor
     @Query("select s from Student s join s.courses c join c.professor p where p.firstName = :name")
     List<Student> findAllStudentsByProfessor(@Param("name") String name);
+
+    //find students who have email ending with specific domain
+    List<Student> findByEmailEndingWith(String email);
 }
